@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Button, ActivityIndicator, Alert } from 'react-native';
 
 export default function App() {
   const [dados, setDados] = useState(null);
@@ -8,9 +8,34 @@ export default function App() {
   const buscarDados = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://192.168.0.44:5000/dados'); // <- Troque para o seu IP real
+      const response = await fetch('http://192.168.0.44:5000/dados'); // <-- seu IP
       const json = await response.json();
       setDados(json);
+
+    
+      if (dados.temperatura > 90) {
+        Alert.alert(
+          '🚨 Alerta de Temperatura!',
+          `A temperatura está em ${dados.temperatura}°C!`,
+          [{ text: 'OK' }]
+        );
+      }
+
+      if (dados.nivel_oleo < 80) {
+        Alert.alert(
+          '🚨 Alerta de Nível de Oléo',
+          `O nível do oléo está em ${dados.nivel_oleo}%`,
+          [{ text: 'OK' }]
+        );
+      }
+      
+      if (dados.presenca > 8) {
+        Alert.alert(
+          '🚨 Freio de Emergencia Ativado',
+          `O freio automatico foi acionado devido proximidade excessiva do carro a um objeto a frente`,
+          [{ text: 'OK' }]
+        );
+      }
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
     } finally {

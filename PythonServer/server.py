@@ -10,7 +10,8 @@ app = Flask(__name__)
 data = {
     "temperatura": None,
     "presenca": None,
-    "nivel_oleo": None
+    "nivel_oleo": None,
+    "porta": None
 }
 
 def gerar_dados_simulados():
@@ -22,18 +23,9 @@ def gerar_dados_simulados():
         data['presenca'] = round(random.randint(0, 10))
         # Simula nível de óleo entre 0% e 100%
         data['nivel_oleo'] = random.randint(0, 100)
-
-        if data['temperatura'] > 90:
-            print("Temperatura Acima do Padrão")
-
-        if data['nivel_oleo'] < 80:
-            print('Oléo Abaixo do Nível Recomendado')
-
-        if data['presenca'] > 8:
-            print('Freio de Emergencia Acionado')
-
+       
         print(f"Simulado: {data}")
-        time.sleep(10)  # Atualiza os dados a cada 60 segundos
+        time.sleep(30)  # Atualiza os dados a cada 60 segundos
 
 @app.route('/dados', methods=['GET'])
 def get_dados():
