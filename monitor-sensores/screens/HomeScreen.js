@@ -26,11 +26,9 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Image source={require('../assets/logo.png')} style={styles.logo} resizeMode="contain" />
-      <Text style={styles.title}>SENSOR CONTROL</Text>
+      <Text style={styles.header}>SENSOR CONTROL</Text>
       <Text style={styles.description}>Monitoramento inteligente de sensores veiculares</Text>
-
-      {/* Mostrar o modo atual (opcional, útil para debug ou TCC) */}
-      <Text style={styles.modo}>Modo: {MODO}</Text>
+      <Text style={styles.modo}>Modo atual: {MODO}</Text>
 
       <TouchableOpacity style={styles.button} onPress={handleConectar}>
         <Text style={styles.buttonText}>
@@ -44,9 +42,9 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#0B0C10',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
     padding: 20,
   },
   logo: {
@@ -54,30 +52,33 @@ const styles = StyleSheet.create({
     height: 150,
     marginBottom: 30,
   },
-  title: {
-    fontSize: 28,
+  header: {
+    fontSize: 26,
+    color: '#66FCF1',
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 16,
   },
   description: {
     fontSize: 16,
-    color: '#666',
+    color: '#C5C6C7',
     textAlign: 'center',
     marginBottom: 10,
   },
   modo: {
     fontSize: 14,
-    color: '#999',
-    marginBottom: 20,
+    color: '#888',
+    marginBottom: 30,
   },
   button: {
-    backgroundColor: '#1ABC9C',
-    paddingVertical: 12,
+    backgroundColor: '#1F2833',
+    paddingVertical: 14,
     paddingHorizontal: 40,
-    borderRadius: 25,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: '#00FFF7',
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: '#00FFF7',
     fontSize: 16,
     fontWeight: 'bold',
   },

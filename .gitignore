@@ -1,1 +1,3 @@
 .venv
+monitor-sensores//node_modules
+node_modules

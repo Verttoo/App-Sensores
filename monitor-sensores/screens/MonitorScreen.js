@@ -38,21 +38,29 @@ export default function MonitorScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>📊 Monitoramento em Tempo Real</Text>
-      <View style={styles.cardColumn}>
-        <View style={styles.cardCircle}>
-          <Text style={styles.cardLabel}>ENGINE TEMP</Text>
-          <Text style={styles.circleValue}>{dados.temperatura} ºC</Text>
+      <Text style={styles.header}>
+  🔧 Status dos Sensores
+      </Text>
+
+      <View style={styles.cardRow}>
+        <View style={[styles.kpiBox, { backgroundColor: '#1f2833' }]}>
+          <Text style={styles.kpiLabel}>ENGINE TEMP 🌡️</Text>
+          <Text style={styles.kpiValue}>{dados.temperatura} ºC</Text>
         </View>
 
-        <View style={styles.cardCircle}>
-          <Text style={styles.cardLabel}>OIL LEVEL</Text>
-          <Text style={styles.circleValue}>{dados.nivel_oleo}%</Text>
+        <View style={[styles.kpiBox, { backgroundColor: '#0b0c10' }]}>
+          <Text style={styles.kpiLabel}>OIL LEVEL 🧴</Text>
+          <Text style={styles.kpiValue}>{dados.nivel_oleo}%</Text>
         </View>
 
-        <View style={styles.cardCircle}>
-          <Text style={styles.cardLabel}>BATTERY LEVEL</Text>
-          <Text style={styles.circleValue}>{dados.bateria}%</Text>
+        <View style={[styles.kpiBox, { backgroundColor: '#1f2833' }]}>
+          <Text style={styles.kpiLabel}>BATTERY LEVEL 🔋</Text>
+          <Text style={styles.kpiValue}>{dados.bateria}%</Text>
+        </View>
+
+        <View style={[styles.kpiBox, { backgroundColor: '#1f2833' }]}>
+          <Text style={styles.kpiLabel}>WATER LEVEL 💧</Text>
+          <Text style={styles.kpiValue}>{dados.nivel_agua}%</Text>
         </View>
       </View>
     </ScrollView>
@@ -64,40 +72,52 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: '#0B0C10',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     padding: 20,
   },
   header: {
-    fontSize: 20,
+    fontSize: 26,
     color: '#66FCF1',
-    marginBottom: 20,
     fontWeight: 'bold',
+    marginBottom: 30,
+    textAlign: 'center',
+    backgroundColor: '#1F2833',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 2,
   },
-  cardColumn: {
-    flexDirection: 'column',
-    alignItems: 'center',
+  cardRow: {
+    width: '100%',
     gap: 16,
   },
-  cardCircle: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    borderWidth: 8,
-    borderColor: '#00FFF7',
-    alignItems: 'center',
+  kpiBox: {
+    width: '100%',
+    height: 100,
+    borderRadius: 20,
+    padding: 20,
     justifyContent: 'center',
     backgroundColor: '#1F2833',
-    marginVertical: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
   },
-  circleValue: {
-    fontSize: 30,
+  kpiLabel: {
+    color: '#C5C6C7',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  kpiValue: {
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#00FFF7',
-  },
-  cardLabel: {
-    color: '#C5C6C7',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 8,
+    marginTop: 4,
   },
 });
