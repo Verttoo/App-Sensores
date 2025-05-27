@@ -1,12 +1,12 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
-import './App.css'; // Vamos criar este arquivo para estilização
+import './App.css';
+import Speedometer from './Speedometer';
 
-// Componentes de UI (exemplos, podem ser divididos em arquivos separados)
 const SensorDisplay = ({ label, value, unit, alert }) => (
   <div className={`sensor ${alert ? 'alert' : ''}`}>
     <span className="sensor-label">{label}:</span>
-    <span className="sensor-value">{value !== undefined && value !== null ? value.toFixed(1) : 'N/A'} {unit}</span>
+    <span className="sensor-value">{value !== undefined && value !== null && !isNaN(value) ? Number(value).toFixed(1) : 'N/A'} {unit}</span>
   </div>
 );
 
@@ -19,54 +19,53 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState(null);
 
+  const [speedLimitInput, setSpeedLimitInput] = useState('');
+  const [customSpeedLimit, setCustomSpeedLimit] = useState(null);
+  const [showCustomSpeedAlert, setShowCustomSpeedAlert] = useState(false); // Renomeado para clareza
+
   useEffect(() => {
-    // O endereço do seu servidor WebSocket Python
-    const wsUrl = 'ws://localhost:8765'; // Certifique-se que é o mesmo host/porta do script Python
+    const wsUrl = 'ws://localhost:8765';
     const ws = new WebSocket(wsUrl);
 
-    ws.onopen = () => {
-      console.log('Conectado ao servidor WebSocket');
-      setIsConnected(true);
-      setError(null);
-      // Opcional: Enviar uma mensagem para o servidor se necessário
-      // ws.send('Olá do cliente React!');
-    };
-
+    ws.onopen = () => { setIsConnected(true); setError(null); console.log('Conectado ao WebSocket'); };
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        console.log('Dados recebidos do WebSocket:', data);
         setCarData(data);
-      } catch (e) {
-        console.error('Erro ao processar mensagem do WebSocket:', e);
-        setError('Erro ao processar dados recebidos.');
-      }
+      } catch (e) { setError('Erro ao processar dados.'); console.error('Erro:', e); }
     };
+    ws.onerror = (err) => { setIsConnected(false); setError('Falha na conexão WebSocket.'); console.error('Erro WebSocket:', err); };
+    ws.onclose = () => { setIsConnected(false); console.log('Desconectado do WebSocket'); };
+    return () => { if (ws.readyState === 1) ws.close(); };
+  }, []);
 
-    ws.onerror = (err) => {
-      console.error('Erro no WebSocket:', err);
-      setIsConnected(false);
-      setError('Falha na conexão WebSocket. O servidor Python está rodando?');
-    };
+  const handleSpeedLimitInputChange = (event) => setSpeedLimitInput(event.target.value);
+  const handleSetCustomSpeedLimit = () => {
+    const newLimit = parseFloat(speedLimitInput);
+    if (!isNaN(newLimit) && newLimit > 0) {
+      setCustomSpeedLimit(newLimit);
+      setSpeedLimitInput('');
+    } else {
+      alert("Insira um limite válido.");
+      setCustomSpeedLimit(null);
+    }
+  };
 
-    ws.onclose = () => {
-      console.log('Desconectado do servidor WebSocket');
-      setIsConnected(false);
-      // Opcional: Tentar reconectar
-    };
+  useEffect(() => {
+    const currentSpeed = parseFloat(carData.velocidade_kmh); // <<< USA A NOVA CHAVE
 
-    // Limpeza ao desmontar o componente
-    return () => {
-      if (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING) {
-        ws.close();
-      }
-    };
-  }, []); // Array de dependências vazio significa que este efeito roda uma vez ao montar
+    if (customSpeedLimit !== null && !isNaN(currentSpeed)) {
+      setShowCustomSpeedAlert(currentSpeed > customSpeedLimit);
+    } else {
+      setShowCustomSpeedAlert(false);
+    }
+  }, [carData.velocidade_kmh, customSpeedLimit]); // <<< USA A NOVA CHAVE
+
 
   return (
     <div className="car-multimedia-app">
       <header>
-        <h1>Central Multimídia  Simulated</h1>
+        <h1>Central Multimídia</h1>
         <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
           {isConnected ? 'Conectado' : 'Desconectado'}
         </div>
@@ -74,38 +73,47 @@ function App() {
       </header>
 
       <main className="dashboard">
+        <section className="speed-limit-control">
+          <h2>Definir Limite de Velocidade</h2>
+          <div className="input-group">
+            <input type="number" value={speedLimitInput} onChange={handleSpeedLimitInputChange} placeholder="Ex: 80" min="0"/>
+            <button onClick={handleSetCustomSpeedLimit}>Definir</button>
+          </div>
+          {customSpeedLimit !== null && (<p className="current-limit-text">Limite personalizado: {customSpeedLimit} km/h</p>)}
+        </section>
+
         <section className="primary-info">
-          <SensorDisplay label="Velocidade" value={carData.velocidade} unit="km/h" />
-          <SensorDisplay label="Distância Frontal" value={carData.distancia_cm} unit="cm" alert={carData.alerta_distancia} />
+          {/* Usa a nova chave 'velocidade_kmh' */}
+          <Speedometer speed={carData.velocidade_kmh} />
+          {/* Usa a chave 'distancia_cm' que já estava correta conforme seus "Dados Crus" */}
+          <SensorDisplay label="Distância Traseira" value={carData.distancia_cm} unit="cm" alert={carData.alerta_distancia} />
         </section>
 
         <section className="engine-status">
           <h2>Motor & Fluidos</h2>
           <SensorDisplay label="Nível Combustível" value={carData.combustivel_percent} unit="%" alert={carData.alerta_combustivel} />
-          <SensorDisplay label="Temp. Motor" value={carData.temperatura_c} unit="°C" />
-          <SensorDisplay label="Nível Óleo" value={carData.nivel_oleo} unit="%" />
-          <SensorDisplay label="Fluido Freio" value={carData.fluido_freio_percent} unit="%" alert={carData.alerta_fluido_freio} />
-        </section>
-
-        <section className="tire-status">
-          <h2>Pneus</h2>
-          <SensorDisplay label="Pressão Pneus" value={carData.pressao_pneus} unit="PSI" />
-          {/* Adicionar mais sensores de pneus se houver */}
+          <SensorDisplay label="Nível Óleo Motor" value={carData.oleo_motor_percent} unit="%" alert={carData.alerta_oleo_motor} />
+          <SensorDisplay label="Fluido Freio" value={carData.fluido_freio_PSI} unit="PSI" alert={carData.alerta_fluido_freio} />
         </section>
 
         <section className="alerts-panel">
           <h2>Alertas</h2>
+          <AlertDisplay 
+            message={`⚠️ ALERTA (PERSONALIZADO): Velocidade (${Number(carData.velocidade_kmh || 0).toFixed(0)} km/h) acima do limite de ${customSpeedLimit} km/h!`} 
+            active={showCustomSpeedAlert} 
+          />
+
           <AlertDisplay message="⚠️ ALERTA: Objeto próximo!" active={carData.alerta_distancia} />
           <AlertDisplay message="⛽ ALERTA: Combustível baixo!" active={carData.alerta_combustivel} />
-          <AlertDisplay message="🛑 ALERTA: Fluido de freio baixo!" active={carData.alerta_fluido_freio} />
-          {/* Adicione mais alertas conforme necessário */}
+          <AlertDisplay message="🛑 ALERTA: Pressão do fluido de freio baixo!" active={carData.alerta_fluido_freio} />
+          {/* NOVO Alerta de Óleo */}
+          <AlertDisplay message="💧 ALERTA: Nível do óleo do motor baixo!" active={carData.alerta_oleo_motor} />
         </section>
 
-        
-        <section className="raw-data">
+        {/*<section className="raw-data">
           <h2>Dados Crus (Debug)</h2>
           <pre>{JSON.stringify(carData, null, 2)}</pre>
-        </section> 
+        </section>*/}
       </main>
 
       <footer>

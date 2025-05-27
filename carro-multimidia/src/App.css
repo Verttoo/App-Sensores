@@ -173,3 +173,99 @@ footer {
   white-space: pre-wrap; /* Quebra de linha */
   word-wrap: break-word;
 }
+
+/* Adicionar ao src/App.css */
+.speedometer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza o velocímetro */
+  justify-content: center;
+  background-color: #2a2a2a; /* Cor de fundo para combinar com outros painéis */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  color: #fff;
+  min-height: 250px; /* Garante espaço suficiente para o título e o gauge */
+}
+
+.speedometer-container h3 {
+  margin-top: 0;
+  margin-bottom: 10px; /* Espaço entre o título e o velocímetro */
+  color: #4CAF50; /* Cor do título para combinar */
+  font-size: 1.2em;
+  text-align: center;
+}
+
+/* Para garantir que o texto dentro do gauge seja visível no fundo escuro */
+#speedometer-gauge text {
+  fill: #FFFFFF !important; /* Cor do texto do valor e das marcas, se houver */
+}
+
+/* Adicionar ao src/App.css */
+
+.speed-limit-control {
+  background-color: #2a2a2a; /* Mantém o padrão dos outros painéis */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  /* Se estiver usando grid, ele se ajustará. Se não, pode precisar de margin-bottom */
+  grid-column: 1 / -1; /* Faz ocupar a largura toda se estiver num grid de 2 colunas */
+  margin-bottom: 20px; /* Adiciona espaço abaixo se não estiver em um grid que gerencie o espaçamento */
+}
+
+.speed-limit-control h2 {
+  margin-top: 0;
+  color: #4CAF50; /* Cor padrão dos títulos de seção */
+  border-bottom: 1px solid #444;
+  padding-bottom: 8px;
+  font-size: 1.2em;
+}
+
+.speed-limit-control .input-group {
+  display: flex;
+  gap: 10px; /* Espaço entre o input e o botão */
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.speed-limit-control input[type="number"] {
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: #fff;
+  font-size: 1em;
+  width: 100px; /* Ou ajuste conforme necessário */
+}
+
+/* Remove setas do input number no Chrome, Safari, Edge, Opera */
+.speed-limit-control input[type=number]::-webkit-outer-spin-button,
+.speed-limit-control input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Remove setas do input number no Firefox */
+.speed-limit-control input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.speed-limit-control button {
+  padding: 9px 15px;
+  border-radius: 4px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.speed-limit-control button:hover {
+  background-color: #45a049;
+}
+
+.speed-limit-control .current-limit-text {
+  color: #ccc;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
