@@ -1,9 +1,8 @@
-// src/Speedometer.js
 import React from 'react';
-import GaugeChart from 'react-gauge-chart'; // Assumindo que a instalação com --legacy-peer-deps funcionou
+import GaugeChart from 'react-gauge-chart';
 
 const Speedometer = ({ speed }) => {
-  const maxSpeed = 240; // <<< ALTERADO AQUI: Velocidade máxima conforme novo código ESP32
+  const maxSpeed = 240;
 
   const currentSpeed = (typeof speed === 'number' && !isNaN(speed)) ? speed : 0;
   const percent = currentSpeed / maxSpeed;
@@ -19,7 +18,7 @@ const Speedometer = ({ speed }) => {
       <GaugeChart
         id="speedometer-gauge"
         style={chartStyle}
-        nrOfLevels={24} // Pode ajustar (ex: 24 para ir de 10 em 10 até 240)
+        nrOfLevels={24}
         arcsLength={[0.4, 0.2, 0.4]} 
         colors={['#5BE12C', '#F5CD19', '#EA4228']}
         percent={percent > 1 ? 1 : (percent < 0 ? 0 : percent)}

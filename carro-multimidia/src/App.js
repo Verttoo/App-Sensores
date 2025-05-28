@@ -1,4 +1,4 @@
-// src/App.js
+
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Speedometer from './Speedometer';
@@ -21,7 +21,7 @@ function App() {
 
   const [speedLimitInput, setSpeedLimitInput] = useState('');
   const [customSpeedLimit, setCustomSpeedLimit] = useState(null);
-  const [showCustomSpeedAlert, setShowCustomSpeedAlert] = useState(false); // Renomeado para clareza
+  const [showCustomSpeedAlert, setShowCustomSpeedAlert] = useState(false); 
 
   useEffect(() => {
     const wsUrl = 'ws://localhost:8765';
@@ -52,14 +52,14 @@ function App() {
   };
 
   useEffect(() => {
-    const currentSpeed = parseFloat(carData.velocidade_kmh); // <<< USA A NOVA CHAVE
+    const currentSpeed = parseFloat(carData.velocidade_kmh); 
 
     if (customSpeedLimit !== null && !isNaN(currentSpeed)) {
       setShowCustomSpeedAlert(currentSpeed > customSpeedLimit);
     } else {
       setShowCustomSpeedAlert(false);
     }
-  }, [carData.velocidade_kmh, customSpeedLimit]); // <<< USA A NOVA CHAVE
+  }, [carData.velocidade_kmh, customSpeedLimit]); 
 
 
   return (
@@ -83,9 +83,7 @@ function App() {
         </section>
 
         <section className="primary-info">
-          {/* Usa a nova chave 'velocidade_kmh' */}
           <Speedometer speed={carData.velocidade_kmh} />
-          {/* Usa a chave 'distancia_cm' que já estava correta conforme seus "Dados Crus" */}
           <SensorDisplay label="Distância Traseira" value={carData.distancia_cm} unit="cm" alert={carData.alerta_distancia} />
         </section>
 
@@ -106,7 +104,6 @@ function App() {
           <AlertDisplay message="⚠️ ALERTA: Objeto próximo!" active={carData.alerta_distancia} />
           <AlertDisplay message="⛽ ALERTA: Combustível baixo!" active={carData.alerta_combustivel} />
           <AlertDisplay message="🛑 ALERTA: Pressão do fluido de freio baixo!" active={carData.alerta_fluido_freio} />
-          {/* NOVO Alerta de Óleo */}
           <AlertDisplay message="💧 ALERTA: Nível do óleo do motor baixo!" active={carData.alerta_oleo_motor} />
         </section>
 

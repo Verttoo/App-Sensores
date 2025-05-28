@@ -1,17 +1,15 @@
-# mqtt_websocket_server.py
 import asyncio
 import websockets
 import paho.mqtt.client as mqtt
 import json
 import time
 
-# --- Configurações do Broker MQTT ---
-MQTT_BROKER_HOST = "broker.hivemq.com" # Ou broker.hivemq.com se test.mosquitto.org estiver com problemas
-MQTT_BROKER_PORT = 1883
-MQTT_TOPIC_SUB = "wokwi/carro/sensores" # Tópico que o ESP32 publica
-MQTT_CLIENT_ID = "python-subscriber-carro-websocket-unique" # ID de cliente único
 
-# --- Configurações do WebSocket Server ---
+MQTT_BROKER_HOST = "broker.hivemq.com" 
+MQTT_BROKER_PORT = 1883
+MQTT_TOPIC_SUB = "wokwi/carro/sensores" 
+MQTT_CLIENT_ID = "python-subscriber-carro-websocket-unique" 
+
 WEBSOCKET_HOST = "localhost"
 WEBSOCKET_PORT = 8765
 
@@ -41,14 +39,13 @@ async def send_to_websockets(data_to_send):
 
 def on_message(client, userdata, msg):
     global latest_data, main_asyncio_loop
-    # print(f"Mensagem MQTT recebida no tópico '{msg.topic}'") # Descomente para debug
+ 
     payload_str = msg.payload.decode('utf-8')
     try:
         data = json.loads(payload_str)
         latest_data = data
-        print(f"Dados MQTT processados (Python): {latest_data}") # Verifique este output!
+        print(f"Dados MQTT processados (Python): {latest_data}") 
 
-        # Alertas impressos no console do Python (não afetam o React)
         if latest_data.get("alerta_distancia"): print("ALERTA PYTHON (CONSOLE): Objeto próximo!")
         if latest_data.get("alerta_combustivel"): print("ALERTA PYTHON (CONSOLE): Combustível baixo!")
         if latest_data.get("alerta_fluido_freio"): print("ALERTA PYTHON (CONSOLE): Fluido de freio baixo!")
@@ -65,7 +62,7 @@ def on_message(client, userdata, msg):
     except Exception as e:
         print(f"Erro PYTHON ao processar mensagem MQTT: {e}")
 
-async def websocket_handler(websocket, path=None): # path=None para compatibilidade
+async def websocket_handler(websocket, path=None):
     global latest_data
     print(f"Cliente WebSocket conectado: {websocket.remote_address}, Path: {path if path else 'N/A'}")
     connected_clients.add(websocket)

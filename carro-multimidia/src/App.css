@@ -1,7 +1,6 @@
-/* src/App.css */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #282c34; /* Cor de fundo escura, típica de multimídias */
+  background-color: #282c34; 
   color: #f0f0f0;
   margin: 0;
   padding: 0;
@@ -12,10 +11,10 @@ body {
 }
 
 .car-multimedia-app {
-  background-color: #1e1e1e; /* Um pouco mais claro que o body */
+  background-color: #1e1e1e; 
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  width: 800px; /* Largura típica de uma tela de multimídia */
+  width: 800px; 
   max-width: 95%;
   overflow: hidden;
 }
@@ -24,7 +23,7 @@ header {
   background-color: #333;
   padding: 15px 20px;
   text-align: center;
-  border-bottom: 2px solid #4CAF50; /* Um toque de cor */
+  border-bottom: 2px solid #4CAF50; 
 }
 
 header h1 {
@@ -65,7 +64,7 @@ header h1 {
 .dashboard {
   padding: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Layout responsivo */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 
@@ -106,7 +105,7 @@ header h1 {
 }
 
 .sensor.alert .sensor-value {
-  color: #ffeb3b; /* Amarelo para valores de alerta */
+  color: #ffeb3b; 
   animation: blinkWarning 1s infinite;
 }
 
@@ -121,7 +120,7 @@ header h1 {
 }
 
 .alerts-panel .alert-message {
-  background-color: #f44336; /* Vermelho para alertas críticos */
+  background-color: #f44336; 
   color: white;
   padding: 10px;
   margin-bottom: 10px;
@@ -149,7 +148,6 @@ header h1 {
   }
 }
 
-
 footer {
   background-color: #333;
   text-align: center;
@@ -160,7 +158,7 @@ footer {
 }
 
 .raw-data {
-  grid-column: 1 / -1; /* Ocupa todas as colunas */
+  grid-column: 1 / -1; 
   background-color: #222;
   max-height: 200px;
   overflow-y: auto;
@@ -170,52 +168,47 @@ footer {
 .raw-data pre {
   color: #ccc;
   font-size: 0.9em;
-  white-space: pre-wrap; /* Quebra de linha */
+  white-space: pre-wrap; 
   word-wrap: break-word;
 }
 
-/* Adicionar ao src/App.css */
 .speedometer-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centraliza o velocímetro */
+  align-items: center; 
   justify-content: center;
-  background-color: #2a2a2a; /* Cor de fundo para combinar com outros painéis */
+  background-color: #2a2a2a; 
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
   color: #fff;
-  min-height: 250px; /* Garante espaço suficiente para o título e o gauge */
+  min-height: 250px; 
 }
 
 .speedometer-container h3 {
   margin-top: 0;
-  margin-bottom: 10px; /* Espaço entre o título e o velocímetro */
-  color: #4CAF50; /* Cor do título para combinar */
+  margin-bottom: 10px; 
+  color: #4CAF50; 
   font-size: 1.2em;
   text-align: center;
 }
 
-/* Para garantir que o texto dentro do gauge seja visível no fundo escuro */
 #speedometer-gauge text {
-  fill: #FFFFFF !important; /* Cor do texto do valor e das marcas, se houver */
+  fill: #FFFFFF !important; 
 }
 
-/* Adicionar ao src/App.css */
-
 .speed-limit-control {
-  background-color: #2a2a2a; /* Mantém o padrão dos outros painéis */
+  background-color: #2a2a2a; 
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  /* Se estiver usando grid, ele se ajustará. Se não, pode precisar de margin-bottom */
-  grid-column: 1 / -1; /* Faz ocupar a largura toda se estiver num grid de 2 colunas */
-  margin-bottom: 20px; /* Adiciona espaço abaixo se não estiver em um grid que gerencie o espaçamento */
+  grid-column: 1 / -1; 
+  margin-bottom: 20px; 
 }
 
 .speed-limit-control h2 {
   margin-top: 0;
-  color: #4CAF50; /* Cor padrão dos títulos de seção */
+  color: #4CAF50; 
   border-bottom: 1px solid #444;
   padding-bottom: 8px;
   font-size: 1.2em;
@@ -223,7 +216,7 @@ footer {
 
 .speed-limit-control .input-group {
   display: flex;
-  gap: 10px; /* Espaço entre o input e o botão */
+  gap: 10px; 
   margin-bottom: 10px;
   align-items: center;
 }
@@ -235,16 +228,15 @@ footer {
   background-color: #333;
   color: #fff;
   font-size: 1em;
-  width: 100px; /* Ou ajuste conforme necessário */
+  width: 100px; 
 }
 
-/* Remove setas do input number no Chrome, Safari, Edge, Opera */
 .speed-limit-control input[type=number]::-webkit-outer-spin-button,
 .speed-limit-control input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-/* Remove setas do input number no Firefox */
+
 .speed-limit-control input[type=number] {
   -moz-appearance: textfield;
 }
